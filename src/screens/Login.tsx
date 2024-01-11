@@ -6,6 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {RootState} from '~/redux/store';
+import {login, logout} from '../redux/user';
 import supabase from '../service/api';
 
 type FormInput_PROPS = {
@@ -31,6 +35,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
+  const {isLoggedIn} = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
   const emailHandler = (text: string) => {
     setEmail(text);
@@ -53,10 +59,13 @@ const Login = () => {
       email,
       password,
     });
-    console.log(data);
-    setEmail('');
-    setPassword('');
-    getUser();
+    if (data.user !== null) {
+      console.log(data);
+      setEmail('');
+      setPassword('');
+      getUser();
+      dispatch(login());
+    }
   };
 
   const signOutHandler = async () => {
@@ -85,8 +94,18 @@ const Login = () => {
     getUser();
   }, []);
 
+  const testHandler = () => {
+    if (isLoggedIn) {
+      dispatch(logout());
+    }
+    if (!isLoggedIn) {
+      dispatch(login());
+    }
+  };
+
   return (
     <View style={styles.container}>
+      <Text>{isLoggedIn ? 'LoggedIn' : 'Not LoggedIn'}</Text>
       <Text style={{alignSelf: 'center'}}>
         {authenticated ? 'TRUE' : 'FALSE'}
       </Text>
@@ -106,6 +125,12 @@ const Login = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.btn} onPress={signOutHandler}>
           <Text style={styles.btnTitle}>SignOut</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={signUpHandler}>
+          <Text style={styles.btnTitle}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={testHandler}>
+          <Text style={styles.btnTitle}>Test</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -163,5 +188,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     backgroundColor: '#3c8dff',
+    marginBottom: 5,
   },
 });

@@ -1,10 +1,11 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
+import {RootState, store} from './redux/store';
 import Home from './screens/Home';
 import Login from './screens/Login';
-
-const AUTHENTICATED = false;
 
 const RootStack = createNativeStackNavigator();
 
@@ -27,7 +28,8 @@ const LoginStackNavigator = () => {
 };
 
 const SecurityNavigator = () => {
-  if (AUTHENTICATED) {
+  const {isLoggedIn} = useSelector((state: RootState) => state.user);
+  if (isLoggedIn) {
     return <RootStackNavigator />;
   } else {
     return <LoginStackNavigator />;
@@ -36,9 +38,11 @@ const SecurityNavigator = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <SecurityNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <SecurityNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 };
 

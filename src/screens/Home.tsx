@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {logout} from '../redux/user';
 import supabase from '../service/api';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [fetchError, setFetchError] = useState<null | string>(null);
   const [goals, setGoals] = useState<null | any[]>(null);
 
@@ -23,6 +26,15 @@ const Home = () => {
     fetchGoals();
   }, []);
 
+  const signOutHandler = async () => {
+    const {error} = await supabase.auth.signOut();
+    if (error) {
+      console.log(error);
+      return;
+    }
+    dispatch(logout());
+  };
+
   return (
     <View style={{marginTop: 50, marginHorizontal: 20}}>
       <Text>Home</Text>
@@ -34,6 +46,17 @@ const Home = () => {
           ))}
         </View>
       )}
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#ff6060',
+          width: 100,
+          height: 30,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        onPress={signOutHandler}>
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 };
