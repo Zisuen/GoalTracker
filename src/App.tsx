@@ -4,15 +4,22 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Provider} from 'react-redux';
 import {RootState, store} from './redux/store';
-import Home from './screens/Home';
+import Account from './screens/Account';
+import Goals from './screens/Goals';
+import Habits from './screens/Habits';
 import Login from './screens/Login';
+import ToDo from './screens/ToDo';
 
 const RootStack = createNativeStackNavigator();
 
 const RootStackNavigator = () => {
   return (
-    <RootStack.Navigator screenOptions={{headerShown: false}}>
-      <RootStack.Screen name="Home" component={Home} />
+    <RootStack.Navigator
+      screenOptions={{headerShown: false, animation: 'none'}}>
+      <RootStack.Screen name="Goals" component={Goals} />
+      <RootStack.Screen name="Habits" component={Habits} />
+      <RootStack.Screen name="To-Do" component={ToDo} />
+      <RootStack.Screen name="Account" component={Account} />
     </RootStack.Navigator>
   );
 };
