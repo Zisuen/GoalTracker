@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
+import {stylesLogin} from '../config/styles/Login.style';
 import {login} from '../redux/user';
-import supabase from '../service/api';
+import supabase, {signIn} from '../service/api';
 
 type FormInput_PROPS = {
   title: string;
@@ -16,6 +17,7 @@ type FormInput_PROPS = {
   setter: (text: string) => void;
 };
 const FormInput = ({title, getter, setter}: FormInput_PROPS) => {
+  const styles = stylesLogin();
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.inputContainerTitle}>{title}</Text>
@@ -30,6 +32,7 @@ const FormInput = ({title, getter, setter}: FormInput_PROPS) => {
 };
 
 const Login = () => {
+  const styles = stylesLogin();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -41,21 +44,19 @@ const Login = () => {
     setPassword(text);
   };
 
+  const clearForm = () => {
+    setEmail('');
+    setPassword('');
+  };
+
   const signInHandler = async () => {
-    const {data, error} = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (data.user !== null) {
-      console.log(data);
-      setEmail('');
-      setPassword('');
+    const isSuccess = await signIn({email, password});
+    if (isSuccess) {
+      clearForm();
       dispatch(login());
-    }
-    if (error) {
-      console.log(error);
-      setEmail('');
-      setPassword('');
+    } else {
+      clearForm();
+      console.log('SIGN IN HANDLER ERROR');
     }
   };
 
@@ -78,56 +79,3 @@ const Login = () => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#f3f1ffff',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  title: {
-    alignSelf: 'center',
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  formContainer: {
-    marginHorizontal: 30,
-    backgroundColor: '#ffffff',
-    paddingHorizontal: 30,
-    paddingVertical: 30,
-    borderRadius: 10,
-    shadowColor: '#000000',
-    shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputContainerTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#424242',
-    marginBottom: 10,
-  },
-  inputField: {
-    borderRadius: 4,
-    backgroundColor: '#cbddff',
-    fontSize: 14,
-    paddingVertical: 10,
-    paddingLeft: 10,
-  },
-  btnTitle: {
-    fontSize: 15,
-    color: '#ffffff',
-    fontWeight: 'bold',
-  },
-  btn: {
-    borderRadius: 4,
-    alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: '#3c8dff',
-    marginBottom: 5,
-  },
-});
