@@ -1,15 +1,9 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {stylesLogin} from '../config/styles/Login.style';
+import {stylesLogin} from '../config/styles/screens/Login.style';
 import {login} from '../redux/user';
-import supabase, {signIn} from '../service/api';
+import {signIn} from '../service/api';
 
 type FormInput_PROPS = {
   title: string;
