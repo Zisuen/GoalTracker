@@ -1,48 +1,86 @@
-import React, {useLayoutEffect, useState} from 'react';
-import {FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Text, TouchableOpacity} from 'react-native';
 import Layout from '../components/Layout';
-import GoalModal from '../components/Goals/GoalModal';
-import Goal from '../components/Goals/Goal';
-import {fetchGoals, GOAL, SUB_GOAL} from '../service/api';
+import supabase, {fetchGoals, GOAL, SEND_GOAL} from '../service/api';
+
+const testGoal: SEND_GOAL = {
+  goal_title: 'Insert test GOAL',
+  goal_description: 'Trying to insert a testGoal into the tablet',
+  goal_progress: 7,
+  subGoals: [
+    {
+      subGoal_title: 'SubGoal One',
+      subGoal_progress: 17,
+      is_done: false,
+    },
+    {
+      subGoal_title: 'SubGoal Two',
+      subGoal_progress: 24,
+      is_done: false,
+    },
+  ],
+  is_done: false,
+};
+
+type GOAL_PROPS = {
+  goal: GOAL;
+};
+
+const Goal = ({goal}: GOAL_PROPS) => {
+  const deleteGoal = async () => {
+    const {error} = await supabase
+      .from('goals')
+      .delete()
+      .eq('goal_id', goal.goal_id);
+    if (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  return (
+    <TouchableOpacity onPress={() => deleteGoal()}>
+      <Text>{goal.goal_title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const Goals = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [chosenGoal, setChosenGoal] = useState<SUB_GOAL[]>([]);
-  const [data, setData] = useState<GOAL[]>();
-  const modalHandler = () => {
-    setShowModal(!showModal);
-  };
-  const chooseGoal = (goal: SUB_GOAL[]) => {
-    setShowModal(true);
-    setChosenGoal(goal);
-  };
+  const [data, setData] = useState<GOAL[]>([]);
 
-  useLayoutEffect(() => {
-    const fetchData = async () => {
-      const fetchedData = await fetchGoals();
-      if (fetchedData) {
-        setData(fetchedData);
+  useEffect(() => {
+    const handleFetchGoals = async () => {
+      const data: GOAL[] = await fetchGoals();
+      if (data) {
+        setData(data);
       }
     };
 
-    fetchData();
+    handleFetchGoals();
   }, []);
+
+  const insertGoal = async () => {
+    const {data, error} = await supabase
+      .from('goals')
+      .insert(testGoal)
+      .select();
+    if (data) {
+      console.log('Inserted data');
+    }
+    if (error) {
+      throw new Error(error.message);
+    }
+    await fetchGoals();
+  };
 
   return (
     <>
       <Layout>
-        <FlatList
-          data={data}
-          renderItem={({item}) => <Goal item={item} choosenGoal={chooseGoal} />}
+        <FlatList data={data} renderItem={({item}) => <Goal goal={item} />} />
+        <TouchableOpacity
+          style={{backgroundColor: 'blue', width: 10, height: 10}}
+          onPress={insertGoal}
         />
       </Layout>
-      {chosenGoal && (
-        <GoalModal
-          showModal={showModal}
-          handleModal={modalHandler}
-          goal={chosenGoal}
-        />
-      )}
     </>
   );
 };
