@@ -10,6 +10,5 @@
     "strict": true,
     "baseUrl": "./src",
     "paths": { "~/*": ["*"] },
-    "typeRoots": ["./src/types"]
   }
 }

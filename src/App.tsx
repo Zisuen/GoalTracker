@@ -5,6 +5,8 @@ import Login from './screens/Login';
 import GoalTracker from './screens/GoalTracker';
 import Account from './screens/Account';
 import {NavigationContainer} from '@react-navigation/native';
+import {Provider, useSelector} from 'react-redux';
+import {RootState, store} from './services/redux/store';
 
 type AuthenticationStackParams = {
   Login: undefined;
@@ -14,7 +16,7 @@ const AuthenticationStack =
 
 const AuthenticationStackNavigator = () => {
   return (
-    <AuthenticationStack.Navigator>
+    <AuthenticationStack.Navigator screenOptions={{headerShown: false}}>
       <AuthenticationStack.Screen name="Login" component={Login} />
     </AuthenticationStack.Navigator>
   );
@@ -27,23 +29,30 @@ type RootStackParams = {
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackNavigator = () => {
   return (
-    <RootStack.Navigator>
+    <RootStack.Navigator screenOptions={{headerShown: false}}>
       <RootStack.Screen name="GoalTracker" component={GoalTracker} />
       <RootStack.Screen name="Account" component={Account} />
     </RootStack.Navigator>
   );
 };
 
+const NavigationSwitcher = () => {
+  const {isLoggedIn} = useSelector((state: RootState) => state.user);
+  if (isLoggedIn) {
+    return <RootStackNavigator />;
+  } else {
+    return <AuthenticationStackNavigator />;
+  }
+};
+
 const App = () => {
-  const isLoggedIn: boolean = true;
-  const navigationSwitcher = () => {
-    if (isLoggedIn) {
-      return <RootStackNavigator />;
-    } else {
-      return <AuthenticationStackNavigator />;
-    }
-  };
-  return <NavigationContainer>{navigationSwitcher()}</NavigationContainer>;
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <NavigationSwitcher />
+      </NavigationContainer>
+    </Provider>
+  );
 };
 
 export default App;
