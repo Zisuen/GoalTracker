@@ -1,16 +1,17 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {Provider, useSelector} from 'react-redux';
 
 import Login from './screens/Login';
 import GoalTracker from './screens/GoalTracker';
 import Account from './screens/Account';
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider, useSelector} from 'react-redux';
 import {RootState, store} from './services/redux/store';
+import {
+  AuthenticationStackParams,
+  RootStackParams,
+} from './config/types/api.types';
 
-type AuthenticationStackParams = {
-  Login: undefined;
-};
 const AuthenticationStack =
   createNativeStackNavigator<AuthenticationStackParams>();
 
@@ -22,10 +23,6 @@ const AuthenticationStackNavigator = () => {
   );
 };
 
-type RootStackParams = {
-  GoalTracker: undefined;
-  Account: undefined;
-};
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackNavigator = () => {
   return (

@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
 import {loginUser} from '~/services/api';
+import {login} from '~/services/redux/loginSlice';
 
 type USER_INPUT = {
   type: 'email' | 'password';
@@ -28,11 +30,15 @@ const UserInput = ({type, getter, setter}: USER_INPUT) => {
 };
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const loginHandler = async () => {
-    await loginUser({email, password});
+    const isLoggedIn = await loginUser({email, password});
+    if (isLoggedIn) {
+      dispatch(login());
+    }
     setEmail('');
     setPassword('');
   };
