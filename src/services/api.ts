@@ -8,15 +8,31 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const loginUser = async ({email, password}: LOGIN_USER) => {
+export const loginUser = async ({
+  email,
+  password,
+}: LOGIN_USER): Promise<boolean> => {
   const {data, error} = await supabase.auth.signInWithPassword({
     email,
     password,
   });
   if (data.user) {
     console.log(data);
+    return true;
   }
   if (error) {
     console.log('Error Loging in', error);
+    return false;
   }
+  return false;
+};
+
+export const logoutUser = async (): Promise<boolean> => {
+  const {error} = await supabase.auth.signOut();
+  if (error) {
+    console.log('Error while signing out');
+    return false;
+  }
+  console.log('User logged out');
+  return true;
 };
