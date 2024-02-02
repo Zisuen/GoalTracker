@@ -1,20 +1,49 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const App = () => {
+import Login from './screens/Login';
+import GoalTracker from './screens/GoalTracker';
+import Account from './screens/Account';
+import {NavigationContainer} from '@react-navigation/native';
+
+type AuthenticationStackParams = {
+  Login: undefined;
+};
+const AuthenticationStack =
+  createNativeStackNavigator<AuthenticationStackParams>();
+
+const AuthenticationStackNavigator = () => {
   return (
-    <View style={styles.container}>
-      <Text>App</Text>
-    </View>
+    <AuthenticationStack.Navigator>
+      <AuthenticationStack.Screen name="Login" component={Login} />
+    </AuthenticationStack.Navigator>
   );
 };
 
-export default App;
+type RootStackParams = {
+  GoalTracker: undefined;
+  Account: undefined;
+};
+const RootStack = createNativeStackNavigator<RootStackParams>();
+const RootStackNavigator = () => {
+  return (
+    <RootStack.Navigator>
+      <RootStack.Screen name="GoalTracker" component={GoalTracker} />
+      <RootStack.Screen name="Account" component={Account} />
+    </RootStack.Navigator>
+  );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const App = () => {
+  const isLoggedIn: boolean = true;
+  const navigationSwitcher = () => {
+    if (isLoggedIn) {
+      return <RootStackNavigator />;
+    } else {
+      return <AuthenticationStackNavigator />;
+    }
+  };
+  return <NavigationContainer>{navigationSwitcher()}</NavigationContainer>;
+};
+
+export default App;
