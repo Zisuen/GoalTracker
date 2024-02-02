@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "strict": true,
     "baseUrl": "./src",
-    "paths": { "~/*": ["*"] }
+    "paths": { "~/*": ["*"] },
+    "typeRoots": ["./src/types"]
   }
 }
