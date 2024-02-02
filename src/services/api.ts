@@ -8,10 +8,8 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const loginUser = async ({
-  email,
-  password,
-}: LOGIN_USER): Promise<boolean> => {
+export const loginUser = async ({userInput}: LOGIN_USER): Promise<boolean> => {
+  const {email, password} = userInput;
   const {data, error} = await supabase.auth.signInWithPassword({
     email,
     password,

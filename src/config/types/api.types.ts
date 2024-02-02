@@ -1,6 +1,8 @@
 export type LOGIN_USER = {
-  email: string;
-  password: string;
+  userInput: {
+    email: string;
+    password: string;
+  };
 };
 
 export type AuthenticationStackParams = {
