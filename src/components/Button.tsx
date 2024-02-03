@@ -2,13 +2,14 @@ import React from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 type BUTTON_PROPS = {
+  btnLabel: string;
   pressHandler: () => void;
 };
 
-const Button = ({pressHandler}: BUTTON_PROPS) => {
+const Button = ({btnLabel, pressHandler}: BUTTON_PROPS) => {
   return (
     <TouchableOpacity style={styles.container} onPress={pressHandler}>
-      <Text style={styles.text}>Button</Text>
+      <Text style={styles.text}>{btnLabel}</Text>
     </TouchableOpacity>
   );
 };
