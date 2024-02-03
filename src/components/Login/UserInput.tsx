@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import {HANDLE_INPUT_CHANGE} from './LoginForm';
+
+import styles from '~/config/styles/components/Login/UserInput.styles';
 
 type USER_INPUT = {
   inputType: 'email' | 'password';
@@ -23,17 +25,3 @@ const UserInput = ({inputType, getter, setter}: USER_INPUT) => {
 };
 
 export default UserInput;
-
-const styles = StyleSheet.create({
-  formContainer: {
-    marginBottom: 12,
-  },
-  formTitle: {
-    fontSize: 22,
-    textTransform: 'capitalize',
-  },
-  formInput: {
-    marginTop: 5,
-    fontSize: 20,
-  },
-});

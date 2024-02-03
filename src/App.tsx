@@ -11,6 +11,7 @@ import {
   AuthenticationStackParams,
   RootStackParams,
 } from './config/types/api.types';
+import ThemeContextProvider from './services/context/ThemeContext';
 
 const AuthenticationStack =
   createNativeStackNavigator<AuthenticationStackParams>();
@@ -45,9 +46,11 @@ const NavigationSwitcher = () => {
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <NavigationSwitcher />
-      </NavigationContainer>
+      <ThemeContextProvider>
+        <NavigationContainer>
+          <NavigationSwitcher />
+        </NavigationContainer>
+      </ThemeContextProvider>
     </Provider>
   );
 };
