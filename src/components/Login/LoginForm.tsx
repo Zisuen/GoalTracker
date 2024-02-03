@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import {loginUser} from '~/services/api';
@@ -7,6 +7,8 @@ import {login} from '~/services/redux/loginSlice';
 
 import Button from '../Button';
 import UserInput from './UserInput';
+
+import styles from '~/config/styles/components/Login/LoginForm.styles';
 
 type USER_INPUT = {
   email: string;
@@ -37,7 +39,8 @@ const LoginForm = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.rootContainer}>
+      <Text>Login</Text>
       <UserInput
         inputType="email"
         getter={inputState.email}
@@ -48,15 +51,9 @@ const LoginForm = () => {
         getter={inputState.password}
         setter={handleInputChange}
       />
-      <Button pressHandler={loginHandler} />
+      <Button pressHandler={loginHandler} btnLabel={'Login'} />
     </View>
   );
 };
 
 export default LoginForm;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#cdbfb5',
-  },
-});
