@@ -8,7 +8,7 @@ import {login} from '~/services/redux/loginSlice';
 import Button from '../Button';
 import UserInput from './UserInput';
 
-import styles from '~/config/styles/components/Login/LoginForm.styles';
+import stylesLoginForm from '~/config/styles/components/Login/LoginForm.styles';
 
 type USER_INPUT = {
   email: string;
@@ -21,6 +21,7 @@ export type HANDLE_INPUT_CHANGE = {
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const styles = stylesLoginForm();
   const [inputState, setInputState] = useState<USER_INPUT>({
     email: '',
     password: '',
@@ -40,7 +41,10 @@ const LoginForm = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <Text>Login</Text>
+      <View style={styles.labelContainer}>
+        <Text style={styles.title}>Login</Text>
+        <Text style={styles.subTitle}>Please sign in to continue.</Text>
+      </View>
       <UserInput
         inputType="email"
         getter={inputState.email}
@@ -51,7 +55,14 @@ const LoginForm = () => {
         getter={inputState.password}
         setter={handleInputChange}
       />
-      <Button pressHandler={loginHandler} btnLabel={'Login'} />
+      <Button
+        styles={{
+          buttonStyle: styles.buttonStyle,
+          labelStyle: styles.labelStyle,
+        }}
+        pressHandler={loginHandler}
+        btnLabel={'LOGIN'}
+      />
     </View>
   );
 };

@@ -1,15 +1,43 @@
+import {useContext} from 'react';
 import {StyleSheet} from 'react-native';
+import getFonts from '~/assets/getFonts';
+import {ThemeContext} from '~/services/context/ThemeContext';
 
-const stylesLoginForm = StyleSheet.create({
-  rootContainer: {
-    backgroundColor: '#cdbfb5',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 15,
-  },
-});
+const stylesLoginForm = () => {
+  const {theme} = useContext(ThemeContext);
+  return StyleSheet.create({
+    rootContainer: {
+      borderRadius: 15,
+    },
+    labelContainer: {
+      marginLeft: 10,
+      marginBottom: 10,
+    },
+    title: {
+      ...getFonts({
+        fontSize: 30,
+        fontWeight: 'bold',
+      }),
+      marginLeft: 10,
+      color: theme.text,
+    },
+    subTitle: {
+      ...getFonts({fontSize: 15, fontWeight: '300'}),
+      color: theme.text,
+    },
+    buttonStyle: {
+      alignItems: 'center',
+      marginHorizontal: 30,
+      paddingVertical: 20,
+      paddingHorizontal: 10,
+      borderRadius: 40,
+      backgroundColor: theme.primary,
+    },
+    labelStyle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+  });
+};
 
 export default stylesLoginForm;
