@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider, useSelector} from 'react-redux';
 
-import Login from './screens/Login';
+import Login from './screens/Auth/Login';
 import GoalTracker from './screens/GoalTracker';
 import Account from './screens/Account';
 import {RootState, store} from './services/redux/store';

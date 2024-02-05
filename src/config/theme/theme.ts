@@ -4,20 +4,23 @@ export type THEME = {
   secondary: string;
   tertiary: string;
   text: string;
+  placeholderText: string;
 };
 
 export const dark: THEME = {
   background: '#1b1a3b',
-  primary: '#42c6d2',
-  secondary: '#4f4f4f',
+  primary: '#2f2e66',
+  secondary: '#42c6d2',
   tertiary: '#214229',
   text: '#ffffff',
+  placeholderText: '#585858',
 };
 
 export const light: THEME = {
-  background: '#44a6e3',
-  primary: '#aec456',
-  secondary: '#78e0d7',
+  background: '#a2dbff',
+  primary: '#7fb5d7',
+  secondary: '#dd5555',
   tertiary: '#d782c8',
   text: '#000000',
+  placeholderText: '#727272',
 };

@@ -46,12 +46,12 @@ const LoginForm = () => {
         <Text style={styles.subTitle}>Please sign in to continue.</Text>
       </View>
       <UserInput
-        inputType="email"
+        isPassword={false}
         getter={inputState.email}
         setter={handleInputChange}
       />
       <UserInput
-        inputType="password"
+        isPassword
         getter={inputState.password}
         setter={handleInputChange}
       />
