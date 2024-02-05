@@ -1,6 +1,7 @@
 import 'react-native-url-polyfill/auto';
-import {createClient} from '@supabase/supabase-js';
-import {LOGIN_USER} from '~/config/types/api.types';
+import {Alert} from 'react-native';
+import {createClient, User} from '@supabase/supabase-js';
+import {LOGIN_USER, SIGN_UP_USER} from '~/config/types/api.types';
 
 const supabaseUrl = 'https://tmolyqslvghkivdbfpqu.supabase.co';
 const supabaseKey =
@@ -8,7 +9,36 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const loginUser = async ({userInput}: LOGIN_USER): Promise<boolean> => {
+export const signUpUser = async ({
+  userInput,
+}: SIGN_UP_USER): Promise<boolean> => {
+  const {email, password, firstname, birthday} = userInput;
+  const {data, error} = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        firstname,
+        birthday,
+      },
+    },
+  });
+  if (data.user) {
+    console.log('User Created: ', data);
+    Alert.alert('User has been created');
+    return true;
+  }
+  if (error) {
+    console.log('Error while creating account', error);
+    Alert.alert(error.message);
+    return false;
+  }
+  return false;
+};
+
+export const loginUser = async ({
+  userInput,
+}: LOGIN_USER): Promise<User | undefined> => {
   const {email, password} = userInput;
   const {data, error} = await supabase.auth.signInWithPassword({
     email,
@@ -16,13 +46,12 @@ export const loginUser = async ({userInput}: LOGIN_USER): Promise<boolean> => {
   });
   if (data.user) {
     console.log(data);
-    return true;
+    return data.user;
   }
   if (error) {
     console.log('Error Loging in', error);
-    return false;
+    return undefined;
   }
-  return false;
 };
 
 export const logoutUser = async (): Promise<boolean> => {
