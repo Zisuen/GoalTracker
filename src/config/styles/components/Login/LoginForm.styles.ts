@@ -11,7 +11,7 @@ const stylesLoginForm = () => {
     },
     labelContainer: {
       marginLeft: 10,
-      marginBottom: 10,
+      marginBottom: 20,
     },
     title: {
       ...getFonts({
@@ -27,11 +27,12 @@ const stylesLoginForm = () => {
     },
     buttonStyle: {
       alignItems: 'center',
+      marginTop: 15,
       marginHorizontal: 30,
       paddingVertical: 20,
       paddingHorizontal: 10,
       borderRadius: 40,
-      backgroundColor: theme.primary,
+      backgroundColor: theme.secondary,
     },
     labelStyle: {
       fontSize: 18,

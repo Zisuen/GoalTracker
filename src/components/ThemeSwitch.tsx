@@ -1,37 +1,26 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet, Switch} from 'react-native';
+import {View, Switch} from 'react-native';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {ThemeContext} from '~/services/context/ThemeContext';
+import stylesThemeSwitch from '~/config/styles/components/ThemeSwitch.styles';
 
 const ThemeSwitch = () => {
+  const {theme} = useContext(ThemeContext);
   const {isDark, switchTheme} = useContext(ThemeContext);
+  const styles = stylesThemeSwitch();
 
   return (
     <View style={styles.switchContainer}>
-      <Text style={styles.switchLabel}>{`${
-        isDark ? 'Dark' : 'Light'
-      }-mode`}</Text>
+      <MCIcon
+        name="theme-light-dark"
+        color={theme.secondary}
+        size={40}
+        style={styles.icon}
+      />
       <Switch value={isDark} onChange={switchTheme} />
     </View>
   );
 };
 
 export default ThemeSwitch;
-
-const styles = StyleSheet.create({
-  switchContainer: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingRight: 13,
-    flexDirection: 'row',
-    backgroundColor: '#adf7ff',
-    width: 200,
-    paddingVertical: 5,
-    borderRadius: 17,
-    marginTop: 20,
-  },
-  switchLabel: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginRight: 10,
-  },
-});
