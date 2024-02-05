@@ -3,15 +3,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider, useSelector} from 'react-redux';
 
-import Login from './screens/Auth/Login';
-import GoalTracker from './screens/GoalTracker';
-import Account from './screens/Account';
 import {RootState, store} from './services/redux/store';
 import {
   AuthenticationStackParams,
   RootStackParams,
 } from './config/types/api.types';
 import ThemeContextProvider from './services/context/ThemeContext';
+import GoalTracker from './screens/GoalTracker';
+import Account from './screens/Account';
+import SignUp from './screens/Auth/SignUp';
+import Login from './screens/Auth/Login';
 
 const AuthenticationStack =
   createNativeStackNavigator<AuthenticationStackParams>();
@@ -20,6 +21,7 @@ const AuthenticationStackNavigator = () => {
   return (
     <AuthenticationStack.Navigator screenOptions={{headerShown: false}}>
       <AuthenticationStack.Screen name="Login" component={Login} />
+      <AuthenticationStack.Screen name="SignUp" component={SignUp} />
     </AuthenticationStack.Navigator>
   );
 };

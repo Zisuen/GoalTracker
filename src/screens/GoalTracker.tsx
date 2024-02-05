@@ -1,6 +1,8 @@
 import {NavigationProp} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
+import {useSelector} from 'react-redux';
+import {RootState} from '~/services/redux/store';
 import {RootStackParams} from '~/config/types/api.types';
 
 type PROPS = {
@@ -8,6 +10,10 @@ type PROPS = {
 };
 
 const GoalTracker = ({navigation}: PROPS) => {
+  const [data, setData] = useState();
+  const {email, firstname, birthday, isLoggedIn} = useSelector(
+    (state: RootState) => state.user,
+  );
   const value = useState(new Animated.ValueXY({x: 0, y: 0}))[0];
   const moveBall = () => {
     Animated.timing(value, {
@@ -16,6 +22,7 @@ const GoalTracker = ({navigation}: PROPS) => {
       useNativeDriver: false,
     }).start();
   };
+
   return (
     <View style={styles.container}>
       <Text>GoalTracker</Text>
@@ -45,6 +52,10 @@ const GoalTracker = ({navigation}: PROPS) => {
       <TouchableOpacity style={{backgroundColor: 'green'}} onPress={moveBall}>
         <Text>MoveBall</Text>
       </TouchableOpacity>
+      <Text>{email}</Text>
+      <Text>{firstname}</Text>
+      <Text>{birthday}</Text>
+      <Text>{isLoggedIn ? 'IS_LOGGED_IN' : 'NOT_LOGGED_IN'}</Text>
     </View>
   );
 };
