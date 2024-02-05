@@ -1,3 +1,12 @@
+export type SIGN_UP_USER = {
+  userInput: {
+    email: string;
+    password: string;
+    firstname: string;
+    birthday: string;
+  };
+};
+
 export type LOGIN_USER = {
   userInput: {
     email: string;

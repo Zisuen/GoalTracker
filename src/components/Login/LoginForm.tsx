@@ -3,7 +3,12 @@ import {Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import {loginUser} from '~/services/api';
-import {login} from '~/services/redux/loginSlice';
+import {
+  login,
+  updateBirthday,
+  updateEmail,
+  updateFirstname,
+} from '~/services/redux/loginSlice';
 
 import Button from '../Button';
 import UserInput from './UserInput';
@@ -32,9 +37,12 @@ const LoginForm = () => {
   };
 
   const loginHandler = async () => {
-    const isLoggedIn = await loginUser({userInput: inputState});
-    if (isLoggedIn) {
+    const session = await loginUser({userInput: inputState});
+    if (session) {
       dispatch(login());
+      dispatch(updateEmail(session.user_metadata.email));
+      dispatch(updateFirstname(session.user_metadata.firstname));
+      dispatch(updateBirthday(session.user_metadata.birthday));
     }
     setInputState({email: '', password: ''});
   };
