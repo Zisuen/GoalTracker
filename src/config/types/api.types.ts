@@ -7,6 +7,7 @@ export type LOGIN_USER = {
 
 export type AuthenticationStackParams = {
   Login: undefined;
+  SignUp: undefined;
 };
 
 export type RootStackParams = {
