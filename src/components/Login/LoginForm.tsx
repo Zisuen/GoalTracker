@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
@@ -14,17 +14,19 @@ import Button from '../Button';
 import UserInput from './UserInput';
 
 import stylesLoginForm from '~/config/styles/components/Login/LoginForm.styles';
+import {ThemeContext} from '~/services/context/ThemeContext';
 
 type USER_INPUT = {
   email: string;
   password: string;
 };
 export type HANDLE_INPUT_CHANGE = {
-  field: 'email' | 'password';
+  field: string;
   value: string;
 };
 
 const LoginForm = () => {
+  const {theme} = useContext(ThemeContext);
   const dispatch = useDispatch();
   const styles = stylesLoginForm();
   const [inputState, setInputState] = useState<USER_INPUT>({
@@ -54,12 +56,15 @@ const LoginForm = () => {
         <Text style={styles.subTitle}>Please sign in to continue.</Text>
       </View>
       <UserInput
-        isPassword={false}
+        inputLabel="email"
+        icon={{iconName: 'email-outline', iconColor: theme.text, iconSize: 28}}
         getter={inputState.email}
         setter={handleInputChange}
       />
       <UserInput
-        isPassword
+        inputLabel="password"
+        icon={{iconName: 'security', iconColor: theme.text, iconSize: 28}}
+        hasSecurity
         getter={inputState.password}
         setter={handleInputChange}
       />

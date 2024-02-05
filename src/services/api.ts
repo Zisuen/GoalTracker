@@ -1,4 +1,5 @@
 import 'react-native-url-polyfill/auto';
+import {Alert} from 'react-native';
 import {createClient, User} from '@supabase/supabase-js';
 import {LOGIN_USER, SIGN_UP_USER} from '~/config/types/api.types';
 
@@ -8,7 +9,9 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const signUpUser = async ({userInput}: SIGN_UP_USER) => {
+export const signUpUser = async ({
+  userInput,
+}: SIGN_UP_USER): Promise<boolean> => {
   const {email, password, firstname, birthday} = userInput;
   const {data, error} = await supabase.auth.signUp({
     email,
@@ -20,12 +23,17 @@ export const signUpUser = async ({userInput}: SIGN_UP_USER) => {
       },
     },
   });
-  if (data) {
+  if (data.user) {
     console.log('User Created: ', data);
+    Alert.alert('User has been created');
+    return true;
   }
   if (error) {
     console.log('Error while creating account', error);
+    Alert.alert(error.message);
+    return false;
   }
+  return false;
 };
 
 export const loginUser = async ({
