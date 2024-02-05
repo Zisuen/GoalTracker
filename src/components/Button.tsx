@@ -8,11 +8,20 @@ type BUTTON_PROPS = {
     buttonStyle: ViewStyle;
     labelStyle: TextStyle;
   };
+  disabled: boolean;
 };
 
-const Button = ({btnLabel, pressHandler, styles}: BUTTON_PROPS) => {
+const Button = ({
+  btnLabel,
+  pressHandler,
+  styles,
+  disabled = false,
+}: BUTTON_PROPS) => {
   return (
-    <TouchableOpacity style={styles.buttonStyle} onPress={pressHandler}>
+    <TouchableOpacity
+      disabled={disabled}
+      style={[styles.buttonStyle, {opacity: disabled ? 0.4 : 1}]}
+      onPress={pressHandler}>
       <Text style={styles.labelStyle}>{btnLabel}</Text>
     </TouchableOpacity>
   );

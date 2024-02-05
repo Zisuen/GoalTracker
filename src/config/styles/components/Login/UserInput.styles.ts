@@ -11,11 +11,13 @@ const stylesUserInput = ({focused}: USER_INPUT_STYLE) => {
   const {theme} = useContext(ThemeContext);
   return StyleSheet.create({
     rootContainer: {
-      flexDirection: 'row',
+      backgroundColor: focused ? theme.primary : theme.background,
       padding: 15,
       borderRadius: 20,
       marginBottom: 10,
-      backgroundColor: focused ? theme.primary : theme.background,
+    },
+    container: {
+      flexDirection: 'row',
     },
     iconContainer: {
       justifyContent: 'flex-end',
@@ -38,6 +40,16 @@ const stylesUserInput = ({focused}: USER_INPUT_STYLE) => {
       width: '100%',
       marginBottom: 3,
       color: theme.text,
+    },
+    confirmContainer: {
+      marginTop: 10,
+      marginLeft: 10,
+    },
+    checkContainer: {
+      flexDirection: 'row',
+    },
+    checkIcon: {
+      marginBottom: 2,
     },
   });
 };
