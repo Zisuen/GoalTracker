@@ -8,7 +8,7 @@ type BUTTON_PROPS = {
     buttonStyle: ViewStyle;
     labelStyle: TextStyle;
   };
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const Button = ({

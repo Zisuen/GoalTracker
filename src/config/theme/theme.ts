@@ -4,6 +4,7 @@ export type THEME = {
   secondary: string;
   tertiary: string;
   text: string;
+  inactive: string;
   placeholderText: string;
 };
 
@@ -13,6 +14,7 @@ export const dark: THEME = {
   secondary: '#42c6d2',
   tertiary: '#214229',
   text: '#ffffff',
+  inactive: 'rgba(255, 255, 255, 0.3)',
   placeholderText: '#585858',
 };
 
@@ -22,5 +24,6 @@ export const light: THEME = {
   secondary: '#dd5555',
   tertiary: '#d782c8',
   text: '#000000',
+  inactive: 'rgba(0, 0, 0, 0.5)',
   placeholderText: '#727272',
 };

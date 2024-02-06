@@ -29,7 +29,8 @@ const AuthenticationStackNavigator = () => {
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackNavigator = () => {
   return (
-    <RootStack.Navigator screenOptions={{headerShown: false}}>
+    <RootStack.Navigator
+      screenOptions={{headerShown: false, animation: 'none'}}>
       <RootStack.Screen name="GoalTracker" component={GoalTracker} />
       <RootStack.Screen name="Account" component={Account} />
     </RootStack.Navigator>
