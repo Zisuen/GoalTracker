@@ -1,11 +1,26 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
+import React, {useContext} from 'react';
+import {Text} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {NavigationProp} from '@react-navigation/native';
+import Layout from '~/components/Layout';
 import {logoutUser} from '~/services/api';
 import {logout} from '~/services/redux/loginSlice';
+import {RootStackParams} from '~/config/types/api.types';
+import InformationRow from '~/components/Account/InformationRow';
+import {RootState} from '~/services/redux/store';
+import stylesAccount from '~/config/styles/screens/Account.styles';
+import {ThemeContext} from '~/services/context/ThemeContext';
+import Button from '~/components/Button';
 
-const Account = () => {
+type PROPS = {
+  navigation: NavigationProp<RootStackParams>;
+};
+
+const Account = ({navigation}: PROPS) => {
+  const {isDark, switchTheme} = useContext(ThemeContext);
   const dispatch = useDispatch();
+  const styles = stylesAccount();
+  const {firstname} = useSelector((state: RootState) => state.user);
   const logoutHandler = async () => {
     const isLogedOut = await logoutUser();
     if (isLogedOut) {
@@ -14,30 +29,25 @@ const Account = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Account</Text>
-      <TouchableOpacity
-        onPress={() => logoutHandler()}
-        style={{
-          backgroundColor: '#ef76b7',
-          paddingHorizontal: 15,
-          paddingVertical: 10,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderColor: '#000000',
-        }}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <Layout topPadding navigation={navigation} currentScreen={'Account'}>
+      <Text style={styles.titleText}>Hello {firstname}</Text>
+      <Text style={styles.subTitleText}>Here's your account settings.</Text>
+      <InformationRow
+        hasSwitch
+        switchValue={isDark}
+        switchFn={switchTheme}
+        label="Light mode"
+      />
+      <Button
+        btnLabel="Sign out"
+        pressHandler={logoutHandler}
+        styles={{
+          buttonStyle: styles.buttonStyle,
+          labelStyle: styles.labelStyle,
+        }}
+      />
+    </Layout>
   );
 };
 
 export default Account;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
