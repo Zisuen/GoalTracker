@@ -9,6 +9,8 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+export const TESTING = true;
+
 export const signUpUser = async ({
   userInput,
 }: SIGN_UP_USER): Promise<boolean> => {
