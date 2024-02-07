@@ -10,7 +10,7 @@ const stylesGoalTracker = () => {
   return StyleSheet.create({
     listContentContainer: {
       paddingTop: top,
-      paddingBottom: 20,
+      paddingBottom: 0,
     },
     text: {
       ...getFonts({fontSize: 25}),

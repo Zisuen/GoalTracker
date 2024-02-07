@@ -6,16 +6,20 @@ export type THEME = {
   text: string;
   inactive: string;
   placeholderText: string;
+  progressBarBase: string;
+  progressBar: string;
 };
 
 export const dark: THEME = {
   background: '#1b1a3b',
   primary: '#2f2e66',
   secondary: '#42c6d2',
-  tertiary: '#214229',
+  tertiary: '#1e237d',
   text: '#ffffff',
   inactive: 'rgba(255, 255, 255, 0.3)',
   placeholderText: '#585858',
+  progressBarBase: '#013a00',
+  progressBar: '#058900',
 };
 
 export const light: THEME = {
@@ -26,4 +30,6 @@ export const light: THEME = {
   text: '#000000',
   inactive: 'rgba(0, 0, 0, 0.5)',
   placeholderText: '#727272',
+  progressBarBase: '#040049',
+  progressBar: '#1a16e7',
 };
