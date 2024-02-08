@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import {View, Text, TouchableOpacity, Modal} from 'react-native';
-import getFonts from '~/assets/getFonts';
+import {View, Text, Modal, TouchableOpacity} from 'react-native';
+import stylesGoalModal from '~/config/styles/components/GoalTracker/GoalModal.styles';
 import {ThemeContext} from '~/services/context/ThemeContext';
-import {GOAL_DATA} from './Goal';
+import {countPercentage, GOAL_DATA} from './Goal';
 
 type PROPS = {
   showModal: boolean;
@@ -12,28 +12,19 @@ type PROPS = {
 
 const GoalModal = ({showModal, modalHandler, goal}: PROPS) => {
   const {theme} = useContext(ThemeContext);
+  const styles = stylesGoalModal();
   return (
     <Modal
       visible={showModal}
       presentationStyle={'pageSheet'}
       animationType={'slide'}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: theme.primary,
-        }}>
-        <Text style={{...getFonts({fontSize: 22}), alignSelf: 'center'}}>
-          {goal.title}
-        </Text>
-        <TouchableOpacity
-          style={{
-            width: 25,
-            height: 25,
-            borderRadius: 13,
-            backgroundColor: 'red',
-          }}
-          onPress={modalHandler}
-        />
+      <View style={styles.rootContainer}>
+        <View style={styles.goalTitleContainer}>
+          <Text style={styles.goalTitle}>{goal.title}</Text>
+          <TouchableOpacity style={styles.closeBtn} onPress={modalHandler}>
+            <Text style={styles.closeBtnLabel}>Close</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
