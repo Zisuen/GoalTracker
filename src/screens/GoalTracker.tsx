@@ -51,7 +51,7 @@ const GoalTracker = ({navigation}: PROPS) => {
           sub_goal_title: 'Mileage',
           sub_goal_description: 'Make lenoska drive 1000km',
           sub_goal_target: 1000,
-          sub_goal_current: 100,
+          sub_goal_current: 500,
           sub_goal_is_done: false,
         },
         // SUB_GOAL with YES/NO
@@ -69,7 +69,7 @@ const GoalTracker = ({navigation}: PROPS) => {
           sub_goal_title: 'Mileage',
           sub_goal_description: 'Make lenoska drive 1000km',
           sub_goal_target: 1000,
-          sub_goal_current: 220,
+          sub_goal_current: 500,
           sub_goal_is_done: false,
         },
       ],

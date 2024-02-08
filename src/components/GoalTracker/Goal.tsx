@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Modal, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native';
-import getFonts from '~/assets/getFonts';
 import stylesGoal from '~/config/styles/components/GoalTracker/Goal.styles';
 import {GOAL} from '~/config/types/api.types';
 import {ThemeContext} from '~/services/context/ThemeContext';
@@ -71,33 +70,32 @@ const defaultGoal: GOAL_DATA = {
   ],
 };
 
+export const countPercentage = (goal: SUBGOAL_GOAL): number => {
+  if (!goal.subGoals) {
+    return 0;
+  }
+  const each_subGoal_onePercent = 100 / goal.subGoals.length / 100;
+  const percentage = goal.subGoals.map(subGoal => {
+    if (subGoal.type === 'YES_NO') {
+      return (subGoal.isDone ? 100 : 0) * each_subGoal_onePercent;
+    }
+    if (subGoal.type === 'MANUAL') {
+      return (
+        (subGoal.goalCurrent / (subGoal.goalTarget / 100)) *
+        each_subGoal_onePercent
+      );
+    }
+    return 1;
+  });
+  return percentage.reduce((a, b) => a + b, 0);
+};
+
 const Goal = ({receivedGoal}: PROPS) => {
-  const {theme} = useContext(ThemeContext);
   const [showModal, setShowModal] = useState(false);
   const [goal, setGoal] = useState<GOAL_DATA>(defaultGoal);
 
   const modalHandler = () => {
     setShowModal(!showModal);
-  };
-
-  const countPercentage = (goal: SUBGOAL_GOAL): number => {
-    if (!goal.subGoals) {
-      return 0;
-    }
-    const each_subGoal_onePercent = 100 / goal.subGoals.length / 100;
-    const percentage = goal.subGoals.map(subGoal => {
-      if (subGoal.type === 'YES_NO') {
-        return (subGoal.isDone ? 100 : 0) * each_subGoal_onePercent;
-      }
-      if (subGoal.type === 'MANUAL') {
-        return (
-          (subGoal.goalCurrent / (subGoal.goalTarget / 100)) *
-          each_subGoal_onePercent
-        );
-      }
-      return 1;
-    });
-    return percentage.reduce((a, b) => a + b, 0);
   };
 
   const gatherGoalData = (goal: GOAL): GOAL_DATA => {
@@ -155,9 +153,7 @@ const Goal = ({receivedGoal}: PROPS) => {
                 return manualSub;
             }
           }),
-          percentage:
-            (100 / goal.sub_goals.length) *
-            goal.sub_goals.filter(sub => sub.sub_goal_is_done).length,
+          percentage: goal.goal_type === 'SUB_GOAL' && countPercentage(goal),
         };
         return subGoalGoal;
     }
@@ -184,8 +180,11 @@ const Goal = ({receivedGoal}: PROPS) => {
           <View style={styles.goalProgressBarContainer}>
             <View style={styles.goalProgressBar} />
             <Text style={styles.goalProgressPercentage}>
-              {goal.type === 'SUB_GOAL' && countPercentage(goal).toPrecision(3)}
-              {goal.type !== 'SUB_GOAL' && goal.percentage.toPrecision(3)}%
+              {goal.type === 'SUB_GOAL'
+                ? countPercentage(goal).toPrecision(3)
+                : goal.percentage % 10 !== 0
+                ? goal.percentage.toPrecision(3)
+                : goal.percentage}
             </Text>
           </View>
         </View>
