@@ -13,149 +13,67 @@ type PROPS = {
 const GoalTracker = ({navigation}: PROPS) => {
   const styles = stylesGoalTracker();
   const testGoals: GOAL[] = [
+    // YES / NO Goal
     {
-      goal_id: '1',
-      user_id: 'urbanovsk12',
+      goal_id: 'goal_yes_no',
+      user_id: 'testUser1',
+      created_at: 'Jan 2nd 2024',
+      goal_type: 'YES_NO',
+      goal_title: 'Tenerife Trip',
+      goal_description: 'In 2024 go to Tenerife to watch the night sky.',
       is_done: false,
-      goal_title: 'Save Money',
-      created_at: 'Feb 7th 24',
-      goal_description:
-        'Save more money for the year 2024, making the description longer to handle wrapping on the page',
-      goal_type: 'sub_goals',
-      sub_goals: [
-        {
-          sub_goal_id: 1,
-          sub_goal_title: '50K to end of Q1',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 2,
-          sub_goal_title: '100K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 3,
-          sub_goal_title: '150K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: false,
-        },
-        {
-          sub_goal_id: 4,
-          sub_goal_title: '200K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: false,
-        },
-      ],
     },
+    // MANUAL Goal
     {
-      goal_id: '2',
-      user_id: 'urbanovsk12',
+      goal_id: 'goal_manual',
+      user_id: 'testUser1',
+      created_at: 'Feb 1st 2024',
+      goal_type: 'MANUAL',
+      goal_title: 'Save 100K',
+      goal_description: 'In 2024, save a total of 100.000 CZK',
+      goal_target: 100000,
+      goal_current: 10000,
       is_done: false,
-      goal_title: 'Save Money',
-      created_at: 'Feb 7th 24',
-      goal_description:
-        'Save more money for the year 2024, making the description longer to handle wrapping on the page',
-      goal_type: 'sub_goals',
-      sub_goals: [
-        {
-          sub_goal_id: 1,
-          sub_goal_title: '50K to end of Q1',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 2,
-          sub_goal_title: '100K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 3,
-          sub_goal_title: '150K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: false,
-        },
-        {
-          sub_goal_id: 4,
-          sub_goal_title: '200K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: false,
-        },
-      ],
     },
+    // SUB_GOAL Goal with YES / NO and Manual SubGoals
     {
-      goal_id: '1',
-      user_id: 'urbanovsk12',
-      is_done: false,
-      goal_title: 'Save Money',
-      created_at: 'Feb 7th 24',
-      goal_description:
-        'Save more money for the year 2024, making the description longer to handle wrapping on the page',
-      goal_type: 'sub_goals',
+      goal_id: 'goal_sub_goal',
+      user_id: 'testUser1',
+      created_at: 'Jan 23rd 2024',
+      goal_type: 'SUB_GOAL',
+      goal_title: 'Lena Driver',
+      goal_description: 'In 2024, make Lenoska into a good driver',
       sub_goals: [
+        // SUB_GOAL with MANUAL
         {
-          sub_goal_id: 1,
-          sub_goal_title: '50K to end of Q1',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
+          sub_goal_id: 'sub_goal_manual',
+          sub_goal_type: 'MANUAL',
+          sub_goal_title: 'Mileage',
+          sub_goal_description: 'Make lenoska drive 1000km',
+          sub_goal_target: 1000,
+          sub_goal_current: 100,
+          sub_goal_is_done: false,
         },
+        // SUB_GOAL with YES/NO
         {
-          sub_goal_id: 2,
-          sub_goal_title: '100K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 3,
-          sub_goal_title: '150K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
+          sub_goal_id: 'sub_goal_yes_no',
+          sub_goal_type: 'YES_NO',
+          sub_goal_title: 'Like driving',
+          sub_goal_description:
+            'At the end of the 1000km, does Lenoska like driving ?',
           sub_goal_is_done: false,
         },
         {
-          sub_goal_id: 4,
-          sub_goal_title: '200K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
+          sub_goal_id: 'sub_goal_warea',
+          sub_goal_type: 'MANUAL',
+          sub_goal_title: 'Mileage',
+          sub_goal_description: 'Make lenoska drive 1000km',
+          sub_goal_target: 1000,
+          sub_goal_current: 220,
           sub_goal_is_done: false,
         },
       ],
-    },
-    {
-      goal_id: '1',
-      user_id: 'urbanovsk12',
       is_done: false,
-      goal_title: 'Save Money',
-      created_at: 'Feb 7th 24',
-      goal_description:
-        'Save more money for the year 2024, making the description longer to handle wrapping on the page',
-      goal_type: 'sub_goals',
-      sub_goals: [
-        {
-          sub_goal_id: 1,
-          sub_goal_title: '50K to end of Q1',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 2,
-          sub_goal_title: '100K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: true,
-        },
-        {
-          sub_goal_id: 3,
-          sub_goal_title: '150K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: false,
-        },
-        {
-          sub_goal_id: 4,
-          sub_goal_title: '200K to end of Q2',
-          sub_goal_description: 'Each month average of 17K',
-          sub_goal_is_done: false,
-        },
-      ],
     },
   ];
   return (
@@ -163,7 +81,7 @@ const GoalTracker = ({navigation}: PROPS) => {
       <FlatList
         contentContainerStyle={styles.listContentContainer}
         data={testGoals}
-        renderItem={({item}) => <Goal data={item} />}
+        renderItem={({item}) => <Goal receivedGoal={item} />}
       />
     </Layout>
   );
