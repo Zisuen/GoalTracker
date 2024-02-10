@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import {Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
-import {loginUser} from '~/services/api';
+import {loginUser, TESTING} from '~/services/api';
 import {
   login,
   updateBirthday,
@@ -39,7 +39,11 @@ const LoginForm = () => {
   };
 
   const loginHandler = async () => {
-    const session = await loginUser({userInput: inputState});
+    const session = await loginUser({
+      userInput: TESTING
+        ? {email: 'urbanovsky97@gmail.com', password: 'Password@123'}
+        : inputState,
+    });
     if (session) {
       dispatch(login());
       dispatch(updateEmail(session.user_metadata.email));
