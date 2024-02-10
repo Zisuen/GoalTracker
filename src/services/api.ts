@@ -2,15 +2,11 @@ import 'react-native-url-polyfill/auto';
 import {Alert} from 'react-native';
 import {createClient, User} from '@supabase/supabase-js';
 import {LOGIN_USER, SIGN_UP_USER} from '~/config/types/api.types';
+import {API_KEY, API_URL} from '@env';
 
-const supabaseUrl = 'https://tmolyqslvghkivdbfpqu.supabase.co';
-const supabaseKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtb2x5cXNsdmdoa2l2ZGJmcHF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk1Mzk0ODUsImV4cCI6MjAxNTExNTQ4NX0.KQyjrq4YrfiEVUpsRTAb08dCZDT459twIXfEoSalu5s';
+const supabase = createClient(API_URL, API_KEY);
 
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-export const TESTING = true;
-
+export const TESTING = false;
 export const signUpUser = async ({
   userInput,
 }: SIGN_UP_USER): Promise<boolean> => {
