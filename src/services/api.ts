@@ -9,6 +9,8 @@ const supabaseKey =
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+export const TESTING = true;
+
 export const signUpUser = async ({
   userInput,
 }: SIGN_UP_USER): Promise<boolean> => {
@@ -35,7 +37,6 @@ export const signUpUser = async ({
   }
   return false;
 };
-
 export const loginUser = async ({
   userInput,
 }: LOGIN_USER): Promise<User | undefined> => {
@@ -53,7 +54,6 @@ export const loginUser = async ({
     return undefined;
   }
 };
-
 export const logoutUser = async (): Promise<boolean> => {
   const {error} = await supabase.auth.signOut();
   if (error) {
