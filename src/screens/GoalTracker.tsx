@@ -1,10 +1,11 @@
 import React from 'react';
 import {FlatList} from 'react-native';
 import {NavigationProp} from '@react-navigation/native';
-import {GOAL, RootStackParams} from '~/config/types/api.types';
+import {RootStackParams} from '~/config/types/api.types';
 import stylesGoalTracker from '~/config/styles/screens/GoalTracker.styles';
 import Layout from '~/components/Layout';
 import Goal from '~/components/GoalTracker/Goal';
+import GOAL from '~/config/types/GoalTracker.types';
 
 type PROPS = {
   navigation: NavigationProp<RootStackParams>;
@@ -32,7 +33,7 @@ const GoalTracker = ({navigation}: PROPS) => {
       goal_title: 'Save 100K',
       goal_description: 'In 2024, save a total of 100.000 CZK',
       goal_target: 100000,
-      goal_current: 10000,
+      goal_current: 1234,
       is_done: false,
     },
     // SUB_GOAL Goal with YES / NO and Manual SubGoals
@@ -51,7 +52,7 @@ const GoalTracker = ({navigation}: PROPS) => {
           sub_goal_title: 'Mileage',
           sub_goal_description: 'Make lenoska drive 1000km',
           sub_goal_target: 1000,
-          sub_goal_current: 500,
+          sub_goal_current: 700,
           sub_goal_is_done: false,
         },
         // SUB_GOAL with YES/NO
@@ -61,7 +62,7 @@ const GoalTracker = ({navigation}: PROPS) => {
           sub_goal_title: 'Like driving',
           sub_goal_description:
             'At the end of the 1000km, does Lenoska like driving ?',
-          sub_goal_is_done: false,
+          sub_goal_is_done: true,
         },
         {
           sub_goal_id: 'sub_goal_warea',
@@ -69,7 +70,7 @@ const GoalTracker = ({navigation}: PROPS) => {
           sub_goal_title: 'Mileage',
           sub_goal_description: 'Make lenoska drive 1000km',
           sub_goal_target: 1000,
-          sub_goal_current: 500,
+          sub_goal_current: 300,
           sub_goal_is_done: false,
         },
       ],
@@ -81,7 +82,7 @@ const GoalTracker = ({navigation}: PROPS) => {
       <FlatList
         contentContainerStyle={styles.listContentContainer}
         data={testGoals}
-        renderItem={({item}) => <Goal receivedGoal={item} />}
+        renderItem={({item}) => <Goal goal={item} />}
       />
     </Layout>
   );

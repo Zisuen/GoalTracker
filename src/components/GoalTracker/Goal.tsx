@@ -1,220 +1,112 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native';
 import stylesGoal from '~/config/styles/components/GoalTracker/Goal.styles';
-import {GOAL} from '~/config/types/api.types';
-import {ThemeContext} from '~/services/context/ThemeContext';
+import GOAL from '~/config/types/GoalTracker.types';
 import GoalModal from './GoalModal';
+import SubGoals from './SubGoals';
 
-type SUB_GOAL_DATA_BASE = {
-  id: string;
-  title: string;
-  description: string;
-  isDone: boolean;
-};
-type SUB_GOAL_YES_NO_GOAL = SUB_GOAL_DATA_BASE & {
-  type: 'YES_NO';
-  percentage: number;
-};
-type SUB_GOAL_MANUAL_GOAL = SUB_GOAL_DATA_BASE & {
-  type: 'MANUAL';
-  goalTarget: number;
-  goalCurrent: number;
-  percentage: number;
-};
-type SUB_GOAL_DATA = SUB_GOAL_YES_NO_GOAL | SUB_GOAL_MANUAL_GOAL;
-type GOAL_DATA_BASE = {
-  date: string;
-  title: string;
-  description: string;
-  isDone: boolean;
-};
-type YES_NO_GOAL = GOAL_DATA_BASE & {
-  type: 'YES_NO';
-  percentage: number;
-};
-type MANUAL_GOAL = GOAL_DATA_BASE & {
-  type: 'MANUAL';
-  goalTarget: number;
-  goalCurrent: number;
-  percentage: number;
-};
-type SUBGOAL_GOAL = GOAL_DATA_BASE & {
-  type: 'SUB_GOAL';
-  subGoals: SUB_GOAL_DATA[];
-  percentage: number;
-};
-export type GOAL_DATA = YES_NO_GOAL | MANUAL_GOAL | SUBGOAL_GOAL;
-
-type PROPS = {
-  receivedGoal: GOAL;
-};
-const defaultGoal: GOAL_DATA = {
-  date: 'Nan 0th 9999',
-  title: 'Default',
-  description: 'Default descripition.',
-  isDone: false,
-  type: 'SUB_GOAL',
-  percentage: 99,
-  subGoals: [
+const defaultGoal: GOAL = {
+  goal_id: 'DEFAULT_GOAL',
+  user_id: 'DEFAULT_USER',
+  created_at: 'Nan 0th 9999',
+  goal_title: 'Default',
+  goal_description: 'Default descripition.',
+  is_done: false,
+  goal_type: 'SUB_GOAL',
+  sub_goals: [
     {
-      id: 'NA',
-      title: 'Default',
-      description: 'Default',
-      type: 'MANUAL',
-      goalTarget: 99,
-      goalCurrent: 12,
-      isDone: false,
-      percentage: 0,
+      sub_goal_id: 'NA',
+      sub_goal_title: 'Default',
+      sub_goal_description: 'Default',
+      sub_goal_type: 'MANUAL',
+      sub_goal_target: 99,
+      sub_goal_current: 12,
+      sub_goal_is_done: false,
     },
   ],
 };
-
-export const countPercentage = (goal: SUBGOAL_GOAL): number => {
-  if (!goal.subGoals) {
-    return 0;
-  }
-  const each_subGoal_onePercent = 100 / goal.subGoals.length / 100;
-  const percentage = goal.subGoals.map(subGoal => {
-    if (subGoal.type === 'YES_NO') {
-      return (subGoal.isDone ? 100 : 0) * each_subGoal_onePercent;
-    }
-    if (subGoal.type === 'MANUAL') {
-      return (
-        (subGoal.goalCurrent / (subGoal.goalTarget / 100)) *
-        each_subGoal_onePercent
-      );
-    }
-    return 1;
-  });
-  return percentage.reduce((a, b) => a + b, 0);
+const defaultPercentage: PERCENT = {
+  primary: 111,
+  subs: [111, 222, 333],
 };
 
-const Goal = ({receivedGoal}: PROPS) => {
-  const [showModal, setShowModal] = useState(false);
-  const [goal, setGoal] = useState<GOAL_DATA>(defaultGoal);
+type PERCENT = {
+  primary: number;
+  subs: number[];
+};
 
+type PROPS = {
+  goal: GOAL;
+};
+
+const Goal = ({goal}: PROPS) => {
+  const [showModal, setShowModal] = useState(false);
+  const [percentage, setPercentage] = useState<PERCENT>(defaultPercentage);
   const modalHandler = () => {
     setShowModal(!showModal);
   };
 
-  const gatherGoalData = (goal: GOAL): GOAL_DATA => {
-    const goalBase: GOAL_DATA_BASE = {
-      date: goal.created_at,
-      title: goal.goal_title,
-      description: goal.goal_description,
-      isDone: goal.is_done,
-    };
-    switch (goal.goal_type) {
-      case 'YES_NO':
-        const yesNoGoal: YES_NO_GOAL = {
-          ...goalBase,
-          type: 'YES_NO',
-          percentage: goal.is_done ? 100 : 0,
-        };
-        return yesNoGoal;
-      case 'MANUAL':
-        const manualGoal: MANUAL_GOAL = {
-          ...goalBase,
-          type: 'MANUAL',
-          goalTarget: goal.goal_target,
-          goalCurrent: goal.goal_current,
-          percentage: goal.goal_current / (goal.goal_target / 100),
-        };
-        return manualGoal;
-      case 'SUB_GOAL':
-        const subGoalGoal: SUBGOAL_GOAL = {
-          ...goalBase,
-          type: 'SUB_GOAL',
-          subGoals: goal.sub_goals.map(subGoal => {
-            const subBase: SUB_GOAL_DATA_BASE = {
-              id: subGoal.sub_goal_id,
-              title: subGoal.sub_goal_title,
-              description: subGoal.sub_goal_description,
-              isDone: subGoal.sub_goal_is_done,
-            };
-            switch (subGoal.sub_goal_type) {
-              case 'YES_NO':
-                const yesNoSub: SUB_GOAL_YES_NO_GOAL = {
-                  ...subBase,
-                  type: 'YES_NO',
-                  percentage: subGoal.sub_goal_is_done ? 100 : 0,
-                };
-                return yesNoSub;
-              case 'MANUAL':
-                const manualSub: SUB_GOAL_MANUAL_GOAL = {
-                  ...subBase,
-                  type: 'MANUAL',
-                  goalTarget: subGoal.sub_goal_target,
-                  goalCurrent: subGoal.sub_goal_current,
-                  percentage:
-                    subGoal.sub_goal_current / (subGoal.sub_goal_target / 100),
-                };
-                return manualSub;
-            }
-          }),
-          percentage: goal.goal_type === 'SUB_GOAL' && countPercentage(goal),
-        };
-        return subGoalGoal;
+  const getPercentage = (goal: GOAL) => {
+    if (goal.goal_type === 'YES_NO') {
+      const primaryPercentage = goal.is_done ? 100 : 5;
+      setPercentage({primary: primaryPercentage, subs: []});
+    }
+    if (goal.goal_type === 'MANUAL') {
+      const primaryPercentage = goal.goal_current / (goal.goal_target / 100);
+      setPercentage({primary: primaryPercentage, subs: []});
+    }
+    if (goal.goal_type === 'SUB_GOAL') {
     }
   };
 
   useEffect(() => {
-    const goalData = gatherGoalData(receivedGoal);
-    setGoal(goalData);
-  }, [receivedGoal]);
+    getPercentage(goal);
+  }, []);
 
-  const styles = stylesGoal({percentage: goal.percentage});
-
+  const styles = stylesGoal({percentage: 40});
   return (
     <View style={styles.rootContainer}>
       <TouchableOpacity style={styles.goalContainer} onPress={modalHandler}>
         <View style={styles.goalTitleContainer}>
-          <Text style={styles.goalTitleText}>{goal.title}</Text>
-          <Text style={styles.goalTitleDate}>{goal.date}</Text>
+          <Text style={styles.goalTitleText}>{goal.goal_title}</Text>
+          <Text style={styles.goalTitleDate}>{goal.created_at}</Text>
         </View>
         <View style={styles.goalDescriptionContainer}>
-          <Text style={styles.goalDescriptionText}>{goal.description}</Text>
+          <Text style={styles.goalDescriptionText}>
+            {goal.goal_description}
+          </Text>
         </View>
         <View style={styles.goalProgressContainer}>
           <View style={styles.goalProgressBarContainer}>
             <View style={styles.goalProgressBar} />
             <Text style={styles.goalProgressPercentage}>
-              {goal.type === 'SUB_GOAL'
-                ? countPercentage(goal).toPrecision(3)
-                : goal.percentage % 10 !== 0
-                ? goal.percentage.toPrecision(3)
-                : goal.percentage}
+              {percentage.primary}
             </Text>
           </View>
         </View>
-        <View style={styles.subGoalProgressRootContainer}>
-          {goal.type === 'SUB_GOAL' &&
-            goal.subGoals.map(subGoal => {
+        {/*// TODO Implement the SubGoals component ====> <SubGoals goal={goal} /> */}
+        {/* {goal.goal_type === 'SUB_GOAL' && (
+          <View style={styles.subGoalProgressRootContainer}>
+            {goal.sub_goals.map(subGoal => {
               return (
-                <View key={subGoal.id} style={styles.subGoalProgressContainer}>
+                <View
+                  key={subGoal.sub_goal_id}
+                  style={styles.subGoalProgressContainer}>
                   <View style={styles.subGoalProgressBarContainer}>
-                    <View
-                      style={[
-                        styles.subGoalProgressBar,
-                        {width: `${subGoal.percentage}%`},
-                      ]}
-                    />
+                    <View style={[styles.subGoalProgressBar, {width: `40%`}]} />
                     <Text style={styles.subGoalProgressPercentage}>
-                      {subGoal.type === 'MANUAL'
-                        ? `${subGoal.percentage}%`
-                        : subGoal.isDone
-                        ? 'Done'
-                        : 'In progress'}
+                      Default
                     </Text>
                   </View>
                   <Text style={styles.subGoalTitle} numberOfLines={1}>
-                    {subGoal.title}
+                    {subGoal.sub_goal_title}
                   </Text>
                 </View>
               );
             })}
-        </View>
+          </View>
+        )} */}
       </TouchableOpacity>
       <GoalModal
         showModal={showModal}
