@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import {View, Text, Modal, TouchableOpacity} from 'react-native';
 import stylesGoalModal from '~/config/styles/components/GoalTracker/GoalModal.styles';
+import GOAL from '~/config/types/GoalTracker.types';
 import {ThemeContext} from '~/services/context/ThemeContext';
-import {countPercentage, GOAL_DATA} from './Goal';
 
 type PROPS = {
   showModal: boolean;
   modalHandler: () => void;
-  goal: GOAL_DATA;
+  goal: GOAL;
 };
 
 const GoalModal = ({showModal, modalHandler, goal}: PROPS) => {
@@ -20,7 +20,7 @@ const GoalModal = ({showModal, modalHandler, goal}: PROPS) => {
       animationType={'slide'}>
       <View style={styles.rootContainer}>
         <View style={styles.goalTitleContainer}>
-          <Text style={styles.goalTitle}>{goal.title}</Text>
+          <Text style={styles.goalTitle}>Goal Title</Text>
           <TouchableOpacity style={styles.closeBtn} onPress={modalHandler}>
             <Text style={styles.closeBtnLabel}>Close</Text>
           </TouchableOpacity>

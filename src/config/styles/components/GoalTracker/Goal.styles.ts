@@ -76,7 +76,6 @@ const stylesGoal = ({percentage}: STYLE_PROPS) => {
     subGoalProgressContainer: {
       flexDirection: 'row',
       width: 200,
-      justifyContent: 'space-between',
       alignItems: 'center',
       marginBottom: 5,
     },
