@@ -64,5 +64,4 @@ yarn-error.log
 
 # testing
 /coverage
-src/services/api.ts
 .env

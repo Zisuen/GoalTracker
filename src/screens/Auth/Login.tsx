@@ -1,7 +1,6 @@
-import {API_KEY, API_URL} from '@env';
 import {NavigationProp} from '@react-navigation/native';
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 
 import LoginForm from '~/components/Login/LoginForm';
 import SignUpBtn from '~/components/Login/SignUpBtn';
@@ -22,8 +21,6 @@ const Login = ({navigation}: LOGIN_PROPS) => {
         <LoginForm />
       </View>
       <SignUpBtn navigation={navigation} />
-      <Text style={{color: 'white'}}>{API_URL}</Text>
-      <Text style={{color: 'white'}}>{API_KEY}</Text>
     </View>
   );
 };
