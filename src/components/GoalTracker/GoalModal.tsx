@@ -30,6 +30,7 @@ const GoalModal = ({showModal, modalHandler, goal, percentage}: PROPS) => {
     }
     return 'Error';
   };
+  const isEdit = false;
   return (
     <Modal
       visible={showModal}
@@ -38,70 +39,76 @@ const GoalModal = ({showModal, modalHandler, goal, percentage}: PROPS) => {
       <ScrollView
         style={styles.rootContainer}
         contentContainerStyle={styles.rootContentContainer}>
-        <View style={styles.goalTitleContainer}>
-          <Text style={styles.goalTitle}>{goal.goal_title}</Text>
-          <TouchableOpacity style={styles.closeBtn} onPress={modalHandler}>
-            <Text style={styles.closeBtnLabel}>Close</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.goalDescriptionText}>
-            {goal.goal_description}
-          </Text>
-        </View>
-        <View style={styles.primaryProgressContainer}>
-          <Text style={styles.primaryProgressTitle}>
-            Status: {renderProgress()}
-          </Text>
-          <View style={styles.progressBarContainer}>
-            <View style={styles.progressBar} />
-            <Text style={styles.progressBarPercentage}>
-              {percentage.primary.toFixed(2)}%
-            </Text>
-          </View>
-        </View>
-        {goal.goal_type === 'SUB_GOAL' && (
-          <View style={styles.subGoalsContainer}>
-            {goal.goal_type === 'SUB_GOAL' &&
-              goal.sub_goals.map((subGoal, index) => (
-                <SubGoal
-                  key={subGoal.sub_goal_id}
-                  goal={subGoal}
-                  goalIndex={index}
-                  percent={percentage.subs}
-                  inModal
-                />
-              ))}
-          </View>
+        {!isEdit ? (
+          <>
+            <View style={styles.goalTitleContainer}>
+              <Text style={styles.goalTitle}>{goal.goal_title}</Text>
+              <TouchableOpacity style={styles.closeBtn} onPress={modalHandler}>
+                <Text style={styles.closeBtnLabel}>Close</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.goalDescriptionText}>
+                {goal.goal_description}
+              </Text>
+            </View>
+            <View style={styles.primaryProgressContainer}>
+              <Text style={styles.primaryProgressTitle}>
+                Status: {renderProgress()}
+              </Text>
+              <View style={styles.progressBarContainer}>
+                <View style={styles.progressBar} />
+                <Text style={styles.progressBarPercentage}>
+                  {percentage.primary.toFixed(2)}%
+                </Text>
+              </View>
+            </View>
+            {goal.goal_type === 'SUB_GOAL' && (
+              <View style={styles.subGoalsContainer}>
+                {goal.goal_type === 'SUB_GOAL' &&
+                  goal.sub_goals.map((subGoal, index) => (
+                    <SubGoal
+                      key={subGoal.sub_goal_id}
+                      goal={subGoal}
+                      goalIndex={index}
+                      percent={percentage.subs}
+                      inModal
+                    />
+                  ))}
+              </View>
+            )}
+            <View style={styles.btnsContainer}>
+              <Button
+                btnLabel="Edit"
+                pressHandler={() => {}}
+                styles={{
+                  buttonStyle: styles.button,
+                  labelStyle: styles.buttonLabel,
+                }}
+              />
+              <Button
+                btnLabel="Record progress"
+                pressHandler={() => {}}
+                styles={{
+                  buttonStyle: styles.button,
+                  labelStyle: styles.buttonLabel,
+                }}
+              />
+            </View>
+            <View style={styles.btnsContainer}>
+              <Button
+                btnLabel="Remove goal"
+                pressHandler={() => {}}
+                styles={{
+                  buttonStyle: styles.deleteButton,
+                  labelStyle: styles.buttonLabel,
+                }}
+              />
+            </View>
+          </>
+        ) : (
+          <Text>Hello</Text>
         )}
-        <View style={styles.btnsContainer}>
-          <Button
-            btnLabel="Edit"
-            pressHandler={() => {}}
-            styles={{
-              buttonStyle: styles.button,
-              labelStyle: styles.buttonLabel,
-            }}
-          />
-          <Button
-            btnLabel="Record progress"
-            pressHandler={() => {}}
-            styles={{
-              buttonStyle: styles.button,
-              labelStyle: styles.buttonLabel,
-            }}
-          />
-        </View>
-        <View style={styles.btnsContainer}>
-          <Button
-            btnLabel="Remove goal"
-            pressHandler={() => {}}
-            styles={{
-              buttonStyle: styles.deleteButton,
-              labelStyle: styles.buttonLabel,
-            }}
-          />
-        </View>
       </ScrollView>
     </Modal>
   );
