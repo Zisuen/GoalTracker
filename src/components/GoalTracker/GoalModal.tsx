@@ -65,6 +65,7 @@ const GoalModal = ({showModal, modalHandler, goal, percentage}: PROPS) => {
             {goal.goal_type === 'SUB_GOAL' &&
               goal.sub_goals.map((subGoal, index) => (
                 <SubGoal
+                  key={subGoal.sub_goal_id}
                   goal={subGoal}
                   goalIndex={index}
                   percent={percentage.subs}

@@ -102,7 +102,12 @@ const Goal = ({goal}: PROPS) => {
         </View>
         {goal.goal_type === 'SUB_GOAL' &&
           goal.sub_goals.map((goal, index) => (
-            <SubGoal goal={goal} goalIndex={index} percent={percentage.subs} />
+            <SubGoal
+              key={goal.sub_goal_id}
+              goal={goal}
+              goalIndex={index}
+              percent={percentage.subs}
+            />
           ))}
       </TouchableOpacity>
       <GoalModal
