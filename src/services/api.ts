@@ -6,7 +6,7 @@ import {API_KEY, API_URL} from '@env';
 
 const supabase = createClient(API_URL, API_KEY);
 
-export const TESTING = false;
+export const TESTING = true;
 export const signUpUser = async ({
   userInput,
 }: SIGN_UP_USER): Promise<boolean> => {

@@ -14,7 +14,7 @@ type SUB_GOAL_MANUAL = SUB_GOAL_BASE & {
   sub_goal_target: number;
   sub_goal_current: number;
 };
-type SUB_GOAL = SUB_GOAL_YES_NO | SUB_GOAL_MANUAL;
+export type SUB_GOAL = SUB_GOAL_YES_NO | SUB_GOAL_MANUAL;
 type GOAL_TYPES = 'SUB_GOAL' | 'YES_NO' | 'MANUAL';
 type GOAL_BASE = {
   goal_id: string;

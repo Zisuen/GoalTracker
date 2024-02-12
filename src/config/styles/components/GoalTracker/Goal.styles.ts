@@ -70,37 +70,6 @@ const stylesGoal = ({percentage}: STYLE_PROPS) => {
       alignSelf: 'center',
       position: 'absolute',
     },
-    subGoalProgressRootContainer: {
-      marginLeft: 15,
-    },
-    subGoalProgressContainer: {
-      flexDirection: 'row',
-      width: 200,
-      alignItems: 'center',
-      marginBottom: 5,
-    },
-    subGoalProgressBarContainer: {
-      overflow: 'hidden',
-      width: 90,
-      borderRadius: 20,
-      backgroundColor: theme.progressBarBase,
-      marginRight: 15,
-      justifyContent: 'center',
-    },
-    subGoalProgressBar: {
-      flex: 1,
-      backgroundColor: theme.progressBar,
-    },
-    subGoalProgressPercentage: {
-      ...getFonts({fontSize: 13}),
-      position: 'absolute',
-      alignSelf: 'center',
-      color: '#ffffff',
-    },
-    subGoalTitle: {
-      ...getFonts({fontSize: 15}),
-      color: theme.text,
-    },
   });
 };
 
