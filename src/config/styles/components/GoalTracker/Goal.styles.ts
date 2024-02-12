@@ -62,7 +62,7 @@ const stylesGoal = ({percentage}: STYLE_PROPS) => {
     goalProgressBar: {
       flex: 1,
       backgroundColor: theme.progressBar,
-      width: `${percentage}%`,
+      width: `${percentage === 0 ? 3 : percentage}%`,
     },
     goalProgressPercentage: {
       ...getFonts({fontSize: 18}),

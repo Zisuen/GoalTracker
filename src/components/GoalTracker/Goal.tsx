@@ -36,7 +36,7 @@ const Goal = ({goal}: PROPS) => {
 
   const getPercentage = (goal: GOAL) => {
     if (goal.goal_type === 'YES_NO') {
-      const primaryPercentage = goal.is_done ? 100 : 5;
+      const primaryPercentage = goal.is_done ? 100 : 0;
       setPercentage({
         primary: primaryPercentage,
         subs: [{full: 0, partial: 0}],
@@ -109,6 +109,7 @@ const Goal = ({goal}: PROPS) => {
         showModal={showModal}
         modalHandler={modalHandler}
         goal={goal}
+        percentage={percentage}
       />
     </View>
   );
