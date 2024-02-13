@@ -4,9 +4,19 @@ import {createClient, User} from '@supabase/supabase-js';
 import {LOGIN_USER, SIGN_UP_USER} from '~/config/types/api.types';
 import {API_KEY, API_URL} from '@env';
 
-const supabase = createClient(API_URL, API_KEY);
+export const supabase = createClient(API_URL, API_KEY);
 
 export const TESTING = true;
+export const formatDate = (date: string) => {
+  const dateObj = new Date(date);
+  const month = dateObj.toLocaleString('default', {month: 'short'});
+  const day = dateObj.getDate();
+  const daySufix =
+    day + (day === 1 ? 'st' : day === 2 ? 'nd' : day === 3 ? 'rd' : 'th');
+  const year = dateObj.getFullYear();
+  const formatedDate = `${month} ${daySufix} ${year}`;
+  return formatedDate;
+};
 export const signUpUser = async ({
   userInput,
 }: SIGN_UP_USER): Promise<boolean> => {

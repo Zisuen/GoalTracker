@@ -3,6 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native';
 import stylesGoal from '~/config/styles/components/GoalTracker/Goal.styles';
 import GOAL from '~/config/types/GoalTracker.types';
+import {formatDate} from '~/services/api';
 import GoalModal from './GoalModal';
 import SubGoal from './SubGoal';
 
@@ -82,7 +83,9 @@ const Goal = ({goal}: PROPS) => {
       <TouchableOpacity style={styles.goalContainer} onPress={modalHandler}>
         <View style={styles.goalTitleContainer}>
           <Text style={styles.goalTitleText}>{goal.goal_title}</Text>
-          <Text style={styles.goalTitleDate}>{goal.created_at}</Text>
+          <Text style={styles.goalTitleDate}>
+            {formatDate(goal.created_at)}
+          </Text>
         </View>
         <View style={styles.goalDescriptionContainer}>
           <Text style={styles.goalDescriptionText}>
