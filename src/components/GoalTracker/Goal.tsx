@@ -3,6 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native';
 import stylesGoal from '~/config/styles/components/GoalTracker/Goal.styles';
 import GOAL from '~/config/types/GoalTracker.types';
+import {formatDate} from '~/services/api';
 import GoalModal from './GoalModal';
 import SubGoal from './SubGoal';
 
@@ -36,7 +37,7 @@ const Goal = ({goal}: PROPS) => {
 
   const getPercentage = (goal: GOAL) => {
     if (goal.goal_type === 'YES_NO') {
-      const primaryPercentage = goal.is_done ? 100 : 5;
+      const primaryPercentage = goal.is_done ? 100 : 0;
       setPercentage({
         primary: primaryPercentage,
         subs: [{full: 0, partial: 0}],
@@ -82,7 +83,9 @@ const Goal = ({goal}: PROPS) => {
       <TouchableOpacity style={styles.goalContainer} onPress={modalHandler}>
         <View style={styles.goalTitleContainer}>
           <Text style={styles.goalTitleText}>{goal.goal_title}</Text>
-          <Text style={styles.goalTitleDate}>{goal.created_at}</Text>
+          <Text style={styles.goalTitleDate}>
+            {formatDate(goal.created_at)}
+          </Text>
         </View>
         <View style={styles.goalDescriptionContainer}>
           <Text style={styles.goalDescriptionText}>
@@ -102,13 +105,19 @@ const Goal = ({goal}: PROPS) => {
         </View>
         {goal.goal_type === 'SUB_GOAL' &&
           goal.sub_goals.map((goal, index) => (
-            <SubGoal goal={goal} goalIndex={index} percent={percentage.subs} />
+            <SubGoal
+              key={goal.sub_goal_id}
+              goal={goal}
+              goalIndex={index}
+              percent={percentage.subs}
+            />
           ))}
       </TouchableOpacity>
       <GoalModal
         showModal={showModal}
         modalHandler={modalHandler}
         goal={goal}
+        percentage={percentage}
       />
     </View>
   );

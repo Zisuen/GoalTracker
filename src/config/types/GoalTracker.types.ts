@@ -8,6 +8,8 @@ type SUB_GOAL_BASE = {
 };
 type SUB_GOAL_YES_NO = SUB_GOAL_BASE & {
   sub_goal_type: 'YES_NO';
+  sub_goal_target: null;
+  sub_goal_current: null;
 };
 type SUB_GOAL_MANUAL = SUB_GOAL_BASE & {
   sub_goal_type: 'MANUAL';
@@ -27,15 +29,21 @@ type GOAL_BASE = {
 };
 type GOAL_SUB_GOAL = GOAL_BASE & {
   goal_type: 'SUB_GOAL';
+  goal_target: null;
+  goal_current: null;
   sub_goals: SUB_GOAL[];
 };
 type GOAL_YES_NO = GOAL_BASE & {
   goal_type: 'YES_NO';
+  goal_target: null;
+  goal_current: null;
+  sub_goals: null;
 };
 type GOAL_MANUAL = GOAL_BASE & {
   goal_type: 'MANUAL';
   goal_target: number;
   goal_current: number;
+  sub_goals: null;
 };
 type GOAL = GOAL_SUB_GOAL | GOAL_YES_NO | GOAL_MANUAL;
 

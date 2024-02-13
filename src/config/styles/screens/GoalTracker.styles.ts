@@ -17,6 +17,11 @@ const stylesGoalTracker = () => {
       color: theme.text,
       alignSelf: 'center',
     },
+    addGoal: {
+      position: 'absolute',
+      bottom: 15,
+      right: 13,
+    },
   });
 };
 
