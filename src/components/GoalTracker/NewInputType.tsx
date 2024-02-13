@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import stylesNewInputType from '~/config/styles/components/GoalTracker/NewInputType.styles';
+import {TYPES} from '~/config/types/AddGoal.types';
 import ChoiceBtn from './ChoiceBtn';
 
 type PROPS = {
-  chosen: 'YES_NO' | 'MANUAL' | 'SUB_GOALS' | undefined;
-  typeHandler: (type: 'YES_NO' | 'MANUAL' | 'SUB_GOALS') => void;
+  chosen: 'YES_NO' | 'MANUAL' | 'SUB_GOALS';
+  typeHandler: (type: TYPES) => void;
 };
 const NewInputType = ({chosen, typeHandler}: PROPS) => {
   const styles = stylesNewInputType();

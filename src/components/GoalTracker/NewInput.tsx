@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import stylesNewInput from '~/config/styles/components/GoalTracker/NewInput.styles';
+import {INPUT_HANDLER, INPUT_TARGET} from '~/config/types/AddGoal.types';
 import {ThemeContext} from '~/services/context/ThemeContext';
-import {INPUT_HANDLER, INPUT_TARGET} from './AddGoalModal';
 
 type PROPS = {
   inputLabel: string;
   target: INPUT_TARGET;
-  getter: string | null;
+  getter: string;
   setter: ({text, target}: INPUT_HANDLER) => void;
 };
 
