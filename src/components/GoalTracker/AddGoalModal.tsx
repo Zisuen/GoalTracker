@@ -135,25 +135,30 @@ const AddGoalModal = ({showModal, handleModal}: PROPS) => {
       setNewGoal({...newGoal, sub_goals: updatedSubGoals});
     }
   };
-
-  // const subGoalTypeHandler = ({arIndex, type}: TYPE_HANDLER) => {
-  //   if (newGoal.goal_type === 'SUB_GOALS') {
-  //     const updatedSubGoals = [...newGoal.sub_goals];
-  //     if (type === 'MANUAL') {
-  //       updatedSubGoals[arIndex] = {
-  //         ...updatedSubGoals[arIndex],
-  //         sub_goal_type: type,
-  //         sub_goal_target: '',
-  //         sub_goal_current: ''
-  //       };
-  //     } else if (type === 'YES_NO') {
-  //       const {sub_goal_target, sub_goal_current, ...rest} = updatedSubGoals[arIndex];
-  //       updatedSubGoals[arIndex] = {...rest, sub_goal_type: type};
-  //     }
-  //     Alert.alert('Type changed to: ', type);
-  //     setNewGoal({...newGoal, sub_goals: updatedSubGoals});
-  //   }
-  // };
+  const addSubGoalHandler = () => {
+    if (newGoal.goal_type === 'SUB_GOALS') {
+      setNewGoal({
+        ...newGoal,
+        sub_goals: [
+          ...newGoal.sub_goals,
+          {
+            sub_goal_id: uuidv4(),
+            sub_goal_title: '',
+            sub_goal_description: '',
+            sub_goal_type: 'YES_NO',
+            sub_goal_is_done: false,
+          },
+        ],
+      });
+    }
+  };
+  const removeSubGoal = (arIndex: number) => {
+    if (newGoal.goal_type === 'SUB_GOALS' && newGoal.sub_goals.length > 1) {
+      const updatedSubGoals = [...newGoal.sub_goals];
+      updatedSubGoals.splice(arIndex, 1);
+      setNewGoal({...newGoal, sub_goals: updatedSubGoals});
+    }
+  };
 
   const styles = stylesAddGoalModal();
   return (
