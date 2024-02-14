@@ -1,14 +1,28 @@
 import React, {useState} from 'react';
-import {View, Text, Modal, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import stylesAddGoalModal from '~/config/styles/components/GoalTracker/AddGoalModal.styles';
 import CloseBtn from '../Icons/CloseBtn';
 import NewInput from './NewInput';
 import NewInputType from './NewInputType';
 import NewSubGoal from './NewSubGoal';
-import {INPUT_HANDLER} from '~/config/types/AddGoal.types';
+import {
+  INPUT_HANDLER,
+  SUB_GOAL_INPUT_HANDLER,
+} from '~/config/types/AddGoal.types';
 import {v4 as uuidv4} from 'uuid';
 import 'react-native-get-random-values';
 
+export type TYPE_HANDLER = {
+  arIndex: number;
+  type: 'YES_NO' | 'MANUAL';
+};
 type PROPS = {
   showModal: boolean;
   handleModal: () => void;
@@ -92,6 +106,54 @@ const AddGoalModal = ({showModal, handleModal}: PROPS) => {
   const inputHandler = ({text, target}: INPUT_HANDLER) => {
     setNewGoal({...newGoal, [target]: text});
   };
+  const subGoalInputHandler = ({
+    arIndex,
+    text,
+    target,
+  }: SUB_GOAL_INPUT_HANDLER) => {
+    if (newGoal.goal_type === 'SUB_GOALS') {
+      const updatedSubGoals = [...newGoal.sub_goals];
+      updatedSubGoals[arIndex][target] = text;
+      setNewGoal({...newGoal, sub_goals: updatedSubGoals});
+    }
+  };
+  const subGoalTypeHandler = ({arIndex, type}: TYPE_HANDLER) => {
+    if (newGoal.goal_type === 'SUB_GOALS') {
+      const updatedSubGoals = [...newGoal.sub_goals];
+      if (type === 'MANUAL') {
+        updatedSubGoals[arIndex] = {
+          ...updatedSubGoals[arIndex],
+          sub_goal_type: type,
+          sub_goal_target: '',
+          sub_goal_current: '',
+        };
+      } else if (type === 'YES_NO') {
+        const {sub_goal_target, sub_goal_current, ...rest} =
+          updatedSubGoals[arIndex];
+        updatedSubGoals[arIndex] = {...rest, sub_goal_type: type};
+      }
+      setNewGoal({...newGoal, sub_goals: updatedSubGoals});
+    }
+  };
+
+  // const subGoalTypeHandler = ({arIndex, type}: TYPE_HANDLER) => {
+  //   if (newGoal.goal_type === 'SUB_GOALS') {
+  //     const updatedSubGoals = [...newGoal.sub_goals];
+  //     if (type === 'MANUAL') {
+  //       updatedSubGoals[arIndex] = {
+  //         ...updatedSubGoals[arIndex],
+  //         sub_goal_type: type,
+  //         sub_goal_target: '',
+  //         sub_goal_current: ''
+  //       };
+  //     } else if (type === 'YES_NO') {
+  //       const {sub_goal_target, sub_goal_current, ...rest} = updatedSubGoals[arIndex];
+  //       updatedSubGoals[arIndex] = {...rest, sub_goal_type: type};
+  //     }
+  //     Alert.alert('Type changed to: ', type);
+  //     setNewGoal({...newGoal, sub_goals: updatedSubGoals});
+  //   }
+  // };
 
   const styles = stylesAddGoalModal();
   return (
@@ -146,13 +208,39 @@ const AddGoalModal = ({showModal, handleModal}: PROPS) => {
             <>
               <Text style={styles.additionalInformationText}>SubGoals</Text>
               {newGoal.sub_goals.length > 0 &&
-                newGoal.sub_goals.map((goal, index) => <NewSubGoal />)}
+                newGoal.sub_goals.map((goal, index) => (
+                  <NewSubGoal
+                    currentGoalIndex={index}
+                    getter={goal}
+                    setter={subGoalInputHandler}
+                    type={goal.sub_goal_type}
+                    typeHandler={subGoalTypeHandler}
+                  />
+                ))}
             </>
           )}
           <View style={{backgroundColor: '#34bcae', marginTop: 20}}>
             <Text>{newGoal.goal_title}</Text>
             <Text>{newGoal.goal_description}</Text>
             <Text>{newGoal.goal_type}</Text>
+            {newGoal.goal_type === 'SUB_GOALS' &&
+              newGoal.sub_goals.map(eachGoal => {
+                return (
+                  <>
+                    <Text>{eachGoal.sub_goal_id}</Text>
+                    <Text>{eachGoal.sub_goal_title}</Text>
+                    <Text>{eachGoal.sub_goal_description}</Text>
+                    <Text>{eachGoal.sub_goal_type}</Text>
+                    {eachGoal.sub_goal_type === 'MANUAL' && (
+                      <>
+                        <Text>{eachGoal.sub_goal_target}</Text>
+                        <Text>{eachGoal.sub_goal_current}</Text>
+                      </>
+                    )}
+                    <Text>{eachGoal.sub_goal_is_done ? 'Done' : 'Not'}</Text>
+                  </>
+                );
+              })}
           </View>
         </ScrollView>
       </View>

@@ -37,5 +37,23 @@ type INPUT_HANDLER = {
   text: string;
   target: INPUT_TARGET;
 };
+type TARGET =
+  | 'sub_goal_id'
+  | 'sub_goal_title'
+  | 'sub_goal_description'
+  | 'sub_goal_target'
+  | 'sub_goal_current';
+type SUB_GOAL_INPUT_HANDLER = {
+  text: string;
+  arIndex: number;
+  target: TARGET;
+};
 
-export {NEW_GOAL, INPUT_TARGET, INPUT_HANDLER, TYPES};
+export {
+  NEW_GOAL,
+  INPUT_TARGET,
+  INPUT_HANDLER,
+  TYPES,
+  TARGET,
+  SUB_GOAL_INPUT_HANDLER,
+};
