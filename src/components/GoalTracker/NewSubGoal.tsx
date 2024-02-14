@@ -16,6 +16,7 @@ type PROPS = {
   setter: ({arIndex, text, target}: SUB_GOAL_INPUT_HANDLER) => void;
   type: 'YES_NO' | 'MANUAL';
   typeHandler: ({arIndex, type}: TYPE_HANDLER) => void;
+  removeSubGoal: (arIndex: number) => void;
 };
 
 const NewSubGoal = ({
@@ -24,6 +25,7 @@ const NewSubGoal = ({
   setter,
   type,
   typeHandler,
+  removeSubGoal,
 }: PROPS) => {
   const {theme} = useContext(ThemeContext);
   const styles = StyleSheet.create({
@@ -107,16 +109,7 @@ const NewSubGoal = ({
       )}
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
-          onPress={() => {}}
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: 10,
-            backgroundColor: 'green',
-          }}
-        />
-        <TouchableOpacity
-          onPress={() => {}}
+          onPress={() => removeSubGoal(currentGoalIndex)}
           style={{
             width: 20,
             height: 20,

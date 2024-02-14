@@ -5,6 +5,7 @@ import {
   Modal,
   TouchableOpacity,
   ScrollView,
+  Button,
   Alert,
 } from 'react-native';
 import stylesAddGoalModal from '~/config/styles/components/GoalTracker/AddGoalModal.styles';
@@ -157,6 +158,11 @@ const AddGoalModal = ({showModal, handleModal}: PROPS) => {
       const updatedSubGoals = [...newGoal.sub_goals];
       updatedSubGoals.splice(arIndex, 1);
       setNewGoal({...newGoal, sub_goals: updatedSubGoals});
+    } else {
+      Alert.alert(
+        'There has to be at least one sub goal.',
+        `Current goal type is 'SUB_GOALS' which requires atleast 1 sub goal present. If you do not want sub goals, change your goal type to 'YES / NO' or 'MANUAL'`,
+      );
     }
   };
 
@@ -220,8 +226,10 @@ const AddGoalModal = ({showModal, handleModal}: PROPS) => {
                     setter={subGoalInputHandler}
                     type={goal.sub_goal_type}
                     typeHandler={subGoalTypeHandler}
+                    removeSubGoal={removeSubGoal}
                   />
                 ))}
+              <Button title="Add Sub Goal" onPress={addSubGoalHandler} />
             </>
           )}
           <View style={{backgroundColor: '#34bcae', marginTop: 20}}>
